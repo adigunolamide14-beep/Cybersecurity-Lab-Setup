@@ -316,8 +316,8 @@ This laboratory is intended strictly for education purposes only.
 
 # 👤 Author
 
-**Olamide Adigun**\
-Cybersecurity Professional B082
+**Adigun Olamide Precious**\
+Cybersecurity Student | B084
 
 LinkedIn: [https://www.linkedin.com/in/olamide-adigun-8557853b2/](https://www.linkedin.com/in/olamide-adigun-8557853b2/)
 
