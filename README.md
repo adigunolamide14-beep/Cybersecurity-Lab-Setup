@@ -148,7 +148,6 @@ The VM was allocated:
 ```text
 RAM: 2048 MB
 ```
-![](3-screenshot-kali-linux.png)
 A shared folder was also configured for transferring required files between the host operating system and the Kali VM.
 
 
@@ -168,9 +167,9 @@ Gateway: 10.0.0.1
 DNS: 8.8.8.8
 ```
 
-A consistent IP address makes it easier to document the lab and reference the Kali machine in future exercises.
+[](kali-network-setting.png)
 
-[](12344411%20kali%20network%20setting.png)
+A consistent IP address makes it easier to document the lab and reference the Kali machine in future exercises.
 
 ---
 
