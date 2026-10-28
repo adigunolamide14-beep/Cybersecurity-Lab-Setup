@@ -325,4 +325,4 @@ LinkedIn: [https://www.linkedin.com/in/olamide-adigun-8557853b2/](https://www.li
 
 ## 📌 Project Information
 
-**Program Name:** Cybersecurity at Networkwalks 
+**Program Name:** Cybersecurity at Networkwalks | **Week:** 01 | **Project:** Cybersecurity & Pentesting Lab Setup | **Repository:** Github
