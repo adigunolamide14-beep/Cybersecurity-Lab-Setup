@@ -122,7 +122,7 @@ DHCP:         Enabled
 IPv6:         Disabled
 
 ![](lab-architecture2.png)
-[](12344411%20kali%20network%20setting.png)
+
 A **NAT Network** was selected because multiple virtual machines connected to the same NAT Network can communicate with one another while also having outbound network connectivity.
 
 This will allow future attacker and target VMs to communicate within the lab.
@@ -170,7 +170,7 @@ DNS: 8.8.8.8
 
 A consistent IP address makes it easier to document the lab and reference the Kali machine in future exercises.
 
-![](4-screenshot-kali-network-settings.png)
+[](12344411%20kali%20network%20setting.png)
 
 ---
 
