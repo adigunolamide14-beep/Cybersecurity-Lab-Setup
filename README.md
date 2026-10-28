@@ -69,7 +69,7 @@ It can be used for activities such as:
 
 ## 🏗️ Lab Architecture
 
-![](labscreenshot.png)
+![](lab-screenshot.png)
 
 
 Additional target machines can be added to the same virtual network in future projects.
@@ -219,39 +219,51 @@ DNS:
 
 # 🐞 Problems Encountered & Solutions
 
-Documenting problems is an important part of the project.
-
-## Problem 1. Internet Connectivity After Static IP Configuration
-
-After manually configuring the IPv4 settings, Internet connectivity may fail depending on the Kali/NetworkManager configuration.
-
-One workaround used during this lab was:
-
-```bash
-sudo nmcli connection modify "Wired connection 1" ipv4.dad-timeout 0
-```
-
-The network connection was then restarted/rebooted and connectivity was tested again.
-
-> **Important:** Network interface and connection names may differ between systems. Students should first identify their actual connection name before running an `nmcli` command.
+### Problem 1: Kali Has No Internet Access / Domain Name Resolution Fails
+* **Symptom:** You can ping external IP addresses (e.g., `ping 8.8.8.8` works), but domain lookups fail with `Temporary failure in name resolution` when executing commands like `ping google.com` or updating packages (`apt update`).
+* **Root Cause:** The virtual machine's DNS nameserver configuration is either missing or blocked by host network filters.
+* **Solution:**
+  1. Open your terminal in Kali Linux and check the active resolver file:
+     ```bash
+     sudo nano /etc/resolv.conf
+     ```
+  2. Add reliable public DNS resolvers to the file:
+     ```text
+     nameserver 8.8.8.8
+     nameserver 1.1.1.1
+     ```
+  3. Save the file and restart the network manager service:
+     ```bash
+     sudo systemctl restart NetworkManager
+     ```
 
 ---
 
-## Problem 2. VirtualBox VT-x / Virtualization Error
+### Problem 2: Kali and Target VMs Cannot Communicate Across the Subnet
+* **Symptom:** Kali cannot ping or discover target machines (such as Metasploitable or custom vulnerable VMs) deployed on the same `10.0.0.0/24` range.
+* **Root Cause:** Mismatched virtual adapter types, isolated adapters, or local firewalls blocking ICMP traffic.
+* **Solution:**
+  1. **Verify Adapter Settings:** Ensure that **both** the Kali VM and the target VM are attached to the exact same VirtualBox **NAT Network** name (e.g., `NatNetwork`) under their respective **Settings** → **Network** panels.
+  2. **Bypass ICMP Blocking:** Many target machines block ping (`ICMP`) requests by default. Instead of pinging, verify port availability using TCP scanning:
+     ```bash
+     nmap -Pn 10.0.0.0/24
+     ```
 
-The VM initially failed to start because hardware virtualization was disabled in the system firmware/BIOS.
+---
 
-The issue was resolved by:
-
-1. Restarting the computer.
-2. Entering BIOS/UEFI settings.
-3. Enabling Intel VT-x / hardware virtualization.
-4. Saving the configuration.
-5. Restarting the computer.
-6. Starting the Kali VM again.
-
-After enabling virtualization, the VM started successfully.
-
+### Problem 3: Static IP Configuration Breaks Network Connectivity
+* **Symptom:** After manually assigning a static IP address (`10.0.0.2`), network interfaces fail to bring up connectivity, resulting in complete disconnects.
+* **Root Cause:** Legacy network configuration syntax conflicting with modern NetworkManager services used in contemporary Linux distributions.
+* **Solution:**
+  1. Configure static IP settings cleanly using `nmcli` in the terminal to avoid manual text-file syntax errors:
+     ```bash
+     nmcli connection modify "Wired connection 1" ipv4.addresses 10.0.0.2/24 ipv4.gateway 10.0.0.1 ipv4.dns "8.8.8.8" ipv4.method manual
+     ```
+  2. Bring the interface down and back up to apply changes:
+     ```bash
+     nmcli connection down "Wired connection 1"
+     nmcli connection up "Wired connection 1"
+     ```
 
 ---
 
